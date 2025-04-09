@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To'y Taklifnomasi</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-color: #9c6db2;
+        --secondary-color: #7a5c87;
+        --accent-color: #cca7e6;
+        --bg-color-1: #fff8f0;
+        --bg-color-2: #f2e6ff;
+        --text-color: #54425f;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        min-height: 100vh;
+        overflow-x: hidden;
+        background-color: #f9f7f7;
+        position: relative;
+      }
+
+      /* Background animations */
+      .bg-animation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .floating-hearts {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+
+      .heart {
+        position: absolute;
+        opacity: 0;
+        transform: translateY(0) rotate(0);
+        animation: float-up 15s linear infinite;
+      }
+
+      @keyframes float-up {
+        0% {
+          opacity: 0;
+          transform: translateY(100vh) rotate(0);
+        }
+        10% {
+          opacity: 0.5;
+        }
+        90% {
+          opacity: 0.5;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-50px) rotate(360deg);
+        }
+      }
+
+      .floating-flowers {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+
+      .flower {
+        position: absolute;
+        opacity: 0;
+        animation: float-side 20s linear infinite;
+      }
+
+      @keyframes float-side {
+        0% {
+          opacity: 0;
+          transform: translateX(-50px) translateY(50vh) rotate(0);
+        }
+        10% {
+          opacity: 0.3;
+        }
+        90% {
+          opacity: 0.3;
+        }
+        100% {
+          opacity: 0;
+          transform: translateX(calc(100vw + 50px)) translateY(30vh)
+            rotate(360deg);
+        }
+      }
+
+      /* Main container */
+      .page-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .invitation-container {
+        max-width: 850px;
+        width: 100%;
+        min-height: 700px;
+        background: linear-gradient(
+          135deg,
+          var(--bg-color-1) 0%,
+          var(--bg-color-2) 100%
+        );
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        position: relative;
+        padding: 50px 40px;
+        text-align: center;
+        margin-bottom: 40px;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+
+      .invitation-container.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .border-decoration {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        border: 2px solid rgba(204, 167, 230, 0.5);
+        border-radius: 15px;
+        pointer-events: none;
+      }
+
+      .floral-corner {
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        opacity: 0.6;
+        transition: transform 0.3s ease;
+      }
+
+      .top-left {
+        top: 0;
+        left: 0;
+      }
+
+      .top-right {
+        top: 0;
+        right: 0;
+        transform: scaleX(-1);
+      }
+
+      .bottom-left {
+        bottom: 0;
+        left: 0;
+        transform: scaleY(-1);
+      }
+
+      .bottom-right {
+        bottom: 0;
+        right: 0;
+        transform: scale(-1);
+      }
+
+      .heart-icon {
+        width: 30px;
+        height: 30px;
+        fill: rgba(204, 167, 230, 0.8);
+        margin: 10px auto;
+        transform: scale(1);
+        transition: transform 0.3s ease;
+      }
+
+      .heart-icon:hover {
+        transform: scale(1.2);
+      }
+
+      h1 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 42px;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        font-weight: 700;
+        position: relative;
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+
+      h1.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      h1::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 10%;
+        width: 80%;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--accent-color),
+          transparent
+        );
+      }
+
+      h2 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 32px;
+        color: var(--secondary-color);
+        margin-bottom: 30px;
+        font-weight: 600;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+      }
+
+      h2.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      p {
+        font-family: "Montserrat", sans-serif;
+        font-size: 18px;
+        line-height: 1.6;
+        color: var(--text-color);
+        margin-bottom: 15px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+
+      p.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .highlight {
+        font-weight: 500;
+        color: var(--primary-color);
+      }
+
+      .date-time {
+        font-size: 24px;
+        font-weight: 500;
+        color: var(--secondary-color);
+        margin: 25px 0;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+      }
+
+      .date-time.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .location {
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--secondary-color);
+        margin-bottom: 25px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease 0.4s, transform 0.6s ease 0.4s;
+      }
+
+      .location.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .divider {
+        width: 100px;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          rgba(204, 167, 230, 0.2),
+          rgba(204, 167, 230, 0.8),
+          rgba(204, 167, 230, 0.2)
+        );
+        margin: 25px auto;
+        opacity: 0;
+        transform: scaleX(0.5);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+
+      .divider.visible {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+
+      .rsvp {
+        margin-top: 30px;
+        font-weight: 500;
+        font-style: italic;
+        color: var(--primary-color);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease 0.5s, transform 0.6s ease 0.5s;
+      }
+
+      .rsvp.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .signature {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 28px;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-top: 30px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease 0.6s, transform 0.6s ease 0.6s;
+      }
+
+      .signature.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Buttons */
+      .button-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 40px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease 0.7s, transform 0.6s ease 0.7s;
+      }
+
+      .button-container.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .action-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 24px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-family: "Montserrat", sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(156, 109, 178, 0.3);
+      }
+
+      .action-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 7px 15px rgba(156, 109, 178, 0.4);
+      }
+
+      .action-button i {
+        margin-right: 8px;
+      }
+
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        max-width: 600px;
+        width: 90%;
+        position: relative;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        transform: translateY(30px);
+        opacity: 0;
+        transition: transform 0.4s ease, opacity 0.4s ease;
+      }
+
+      .modal.active .modal-content {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .close-modal {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--text-color);
+        transition: color 0.3s ease;
+      }
+
+      .close-modal:hover {
+        color: var(--primary-color);
+      }
+
+      .modal-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 28px;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      /* Map modal */
+      .map-container {
+        height: 400px;
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+
+      /* Payment modal */
+      .payment-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+      }
+
+      .form-group label {
+        margin-bottom: 5px;
+        font-weight: 500;
+        color: var(--secondary-color);
+      }
+
+      .form-group input {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .submit-payment {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .submit-payment:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(156, 109, 178, 0.3);
+      }
+
+      /* Media Queries */
+      @media (max-width: 768px) {
+        .invitation-container {
+          padding: 30px 20px;
+        }
+
+        h1 {
+          font-size: 32px;
+        }
+
+        h2 {
+          font-size: 26px;
+        }
+
+        p {
+          font-size: 16px;
+        }
+
+        .date-time {
+          font-size: 20px;
+        }
+
+        .location {
+          font-size: 18px;
+        }
+
+        .button-container {
+          flex-direction: column;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .action-button {
+          width: 100%;
+          max-width: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background animations -->
+    <div class="bg-animation">
+      <div class="floating-hearts"></div>
+      <div class="floating-flowers"></div>
+    </div>
+
+    <div class="page-container">
+      <div class="invitation-container">
+        <div class="border-decoration"></div>
+
+        <!-- Floral Corner SVGs -->
+        <svg class="floral-corner top-left" viewBox="0 0 100 100">
+          <path
+            d="M10,50 Q30,30 50,50 T90,50 M50,10 Q30,30 50,50 T50,90"
+            stroke="#cca7e6"
+            stroke-width="2"
+            fill="none"
+          />
+          <path
+            d="M20,40 Q25,20 40,30 T50,10 M30,50 Q20,45 15,30 T5,15"
+            stroke="#cca7e6"
+            stroke-width="1.5"
+            fill="none"
+          />
+          <circle cx="15" cy="35" r="3" fill="#cca7e6" opacity="0.6" />
+          <circle cx="35" cy="15" r="3" fill="#cca7e6" opacity="0.6" />
+          <circle cx="38" cy="38" r="2" fill="#cca7e6" opacity="0.6" />
+        </svg>
+
+        <svg class="floral-corner top-right" viewBox="0 0 100 100">
+          <path
+            d="M10,50 Q30,30 50,50 T90,50 M50,10 Q30,30 50,50 T50,90"
+            stroke="#cca7e6"
+            stroke-width="2"
+            fill="none"
+          />
+          <path
+            d="M20,40 Q25,20 40,30 T50,10 M30,50 Q20,45 15,30 T5,15"
+            stroke="#cca7e6"
+            stroke-width="1.5"
+            fill="none"
+          />
+          <circle cx="15" cy="35" r="3" fill="#cca7e6" opacity="0.6" />
+          <circle cx="35" cy="15" r="3" fill="#cca7e6" opacity="0.6" />
+          <circle cx="38" cy="38" r="2" fill="#cca7e6" opacity="0.6" />
+        </svg>
+
+        <svg class="floral-corner bottom-left" viewBox="0 0 100 100">
+          <path
+            d="M10,50 Q30,30 50,50 T90,50 M50,10 Q30,30 50,50 T50,90"
+            stroke="#cca7e6"
+            stroke-width="2"
+            fill="none"
+          />
+          <path
+            d="M20,40 Q25,20 40,30 T50,10 M30,50 Q20,45 15,30 T5,15"
+            stroke="#cca7e6"
+            stroke-width="1.5"
+            fill="none"
+          />
+          <circle cx="15" cy="35" r="3" fill="#cca7e6" opacity="0.6" />
+          <circle cx="35" cy="15" r="3" fill="#cca7e6" opacity="0.6" />
+          <circle cx="38" cy="38" r="2" fill="#cca7e6" opacity="0.6" />
+        </svg>
+
+        <svg class="floral-corner bottom-right" viewBox="0 0 100 100">
+          <path
+            d="M10,50 Q30,30 50,50 T90,50 M50,10 Q30,30 50,50 T50,90"
+            stroke="#cca7e6"
+            stroke-width="2"
+            fill="none"
+          />
+          <path
+            d="M20,40 Q25,20 40,30 T50,10 M30,50 Q20,45 15,30 T5,15"
+            stroke="#cca7e6"
+            stroke-width="1.5"
+            fill="none"
+          />
+          <circle cx="15" cy="35" r="3" fill="#cca7e6" opacity="0.6" />
+          <circle cx="35" cy="15" r="3" fill="#cca7e6" opacity="0.6" />
+          <circle cx="38" cy="38" r="2" fill="#cca7e6" opacity="0.6" />
+        </svg>
+
+        <h1>TO'Y TAKLIFNOMASI</h1>
+
+        <svg class="heart-icon" viewBox="0 0 24 24">
+          <path
+            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+          />
+        </svg>
+
+        <h2>Tursunpulat va Tojigul</h2>
+
+        <div class="divider"></div>
+
+        <p>Hurmatli <span class="highlight">Qadrdonim</span>,</p>
+
+        <p>
+          Sizni va oila a'zolaringizni bizning to'yimizga taklif etishdan
+          mamnunmiz.
+        </p>
+
+        <p>
+          Siz bilan birga hayotimizning eng quvonchli kunini nishonlashni
+          istaymiz.
+        </p>
+
+        <div class="date-time">
+          2025-yil 15-may, payshanba kuni<br />
+          Soat 17:00 dan
+        </div>
+
+        <div class="location">
+          "Gulshan" to'y saroyi<br />
+          Namangan shahri, New York tumani,<br />
+          Amir Temur ko'chasi, 107-uy
+        </div>
+
+        <div class="divider"></div>
+
+        <p class="rsvp">
+          Iltimos, kelish-kelmasligingiz haqida 2025-yil 1-maygacha<br />
+          +998 90 123-45-67 raqamiga xabar bering.
+        </p>
+
+        <div class="signature">Tursunpulat va Tojigul</div>
+
+        <div class="button-container">
+          <button class="action-button" id="location-btn">
+            <i class="fas fa-map-marker-alt"></i> Joylashuv
+          </button>
+          <button class="action-button" id="payment-btn">
+            <i class="fas fa-credit-card"></i> To'lov
+          </button>
+          <button class="action-button" id="calendar-btn">
+            <i class="fas fa-calendar-plus"></i> Taqvimga qo'shish
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Location Modal -->
+    <div class="modal" id="location-modal">
+      <div class="modal-content">
+        <span class="close-modal" id="close-location">&times;</span>
+        <h3 class="modal-title">To'y Joylashuvi</h3>
+        <div class="map-container">
+          <!-- Placeholder for the map -->
+          <img
+            src="/api/placeholder/550/400"
+            alt="Map placeholder"
+            style="width: 100%; height: 100%; object-fit: cover"
+          />
+        </div>
+        <p style="text-align: center; margin-top: 10px">
+          "Gulshan" to'y saroyi<br />
+          Namangan shahri, New York tumani,<br />
+          Amir Temur ko'chasi, 107-uy
+        </p>
+        <button class="action-button" style="width: 100%; margin-top: 15px">
+          <i class="fas fa-directions"></i> Yo'nalishni ko'rsatish
+        </button>
+      </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="payment-modal">
+      <div class="modal-content">
+        <span class="close-modal" id="close-payment">&times;</span>
+        <h3 class="modal-title">To'lov ma'lumotlari</h3>
+        <p style="text-align: center; margin-bottom: 20px">
+          To'y sovg'asi uchun to'lov qilish
+        </p>
+
+        <form class="payment-form">
+          <div class="form-group">
+            <label for="fullname">To'liq ismingiz</label>
+            <input
+              type="text"
+              id="fullname"
+              placeholder="Ismingizni kiriting"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="card-number">Karta raqami</label>
+            <input
+              type="text"
+              id="card-number"
+              placeholder="0000 0000 0000 0000"
+            />
+          </div>
+
+          <div style="display: flex; gap: 15px">
+            <div class="form-group" style="flex: 1">
+              <label for="expiry">Amal qilish muddati</label>
+              <input type="text" id="expiry" placeholder="MM/YY" />
+            </div>
+
+            <div class="form-group" style="flex: 1">
+              <label for="cvv">CVV</label>
+              <input type="text" id="cvv" placeholder="123" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="amount">To'lov miqdori</label>
+            <input
+              type="text"
+              id="amount"
+              placeholder="Miqdorni kiriting"
+              value="500,000 so'm"
+            />
+          </div>
+
+          <button type="button" class="submit-payment">
+            To'lovni amalga oshirish
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Calendar Modal -->
+    <div class="modal" id="calendar-modal">
+      <div class="modal-content">
+        <span class="close-modal" id="close-calendar">&times;</span>
+        <h3 class="modal-title">Taqvimga qo'shish</h3>
+        <p style="text-align: center; margin-bottom: 20px">
+          To'y sanasini o'z taqvimingizga qo'shing
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 15px">
+          <button class="action-button">
+            <i class="fab fa-google"></i> Google Calendar
+          </button>
+          <button class="action-button">
+            <i class="fab fa-apple"></i> Apple Calendar
+          </button>
+          <button class="action-button">
+            <i class="fab fa-microsoft"></i> Outlook Calendar
+          </button>
+          <button class="action-button">
+            <i class="fas fa-calendar-alt"></i> .ics Faylni yuklab olish
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Generate background animations
+      function createHearts() {
+        const container = document.querySelector(".floating-hearts");
+        const heartCount = 15;
+
+        for (let i = 0; i < heartCount; i++) {
+          const heart = document.createElement("div");
+          heart.classList.add("heart");
+          heart.style.left = `${Math.random() * 100}%`;
+          heart.style.animationDelay = `${Math.random() * 15}s`;
+          heart.style.fontSize = `${Math.random() * 20 + 10}px`;
+          heart.style.opacity = `${Math.random() * 0.3 + 0.2}`;
+          heart.innerHTML = `
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="${getRandomColor()}">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                `;
+          container.appendChild(heart);
+        }
+      }
+
+      function createFlowers() {
+        const container = document.querySelector(".floating-flowers");
+        const flowerCount = 10;
+
+        for (let i = 0; i < flowerCount; i++) {
+          const flower = document.createElement("div");
+          flower.classList.add("flower");
+          flower.style.top = `${Math.random() * 80 + 10}%`;
+          flower.style.animationDelay = `${Math.random() * 20}s`;
+          flower.style.opacity = `${Math.random() * 0.2 + 0.1}`;
+          flower.innerHTML = `
+                    <svg width="30" height="30" viewBox="0 0 100 100" fill="${getRandomColor()}">
+                        <path d="M50,15 Q60,5 70,15 T90,15 T70,35 T90,55 T70,35 T50,55 T30,35 T10,55 T30,35 T10,15 T30,15 T50,15" fill-opacity="0.6" />
+                        <circle cx="50" cy="35" r="10" fill="#FFD700" fill-opacity="0.8" />
+                    </svg>
+                `;
+          container.appendChild(flower);
+        }
+      }
+
+      function getRandomColor() {
+        const colors = ["#9c6db2", "#cca7e6", "#d8bfed", "#f6e1ff", "#ffd6f3"];
+        return colors[Math.floor(Math.random() * colors.length)];
+      }
+
+      // Initialize background animations
+      createHearts();
+      createFlowers();
+
+      // Scroll animation
+      function checkVisibility() {
+        const elements = document.querySelectorAll(
+          ".invitation-container, h1, h2, p, .date-time, .location, .divider, .rsvp, .signature, .button-container"
+        );
+        const triggerBottom = window.innerHeight * 0.9;
+
+        elements.forEach((el) => {
+          const boxTop = el.getBoundingClientRect().top;
+          if (boxTop < triggerBottom) {
+            el.classList.add("visible");
+          }
+        });
+      }
+
+      window.addEventListener("scroll", checkVisibility);
+      window.addEventListener("load", checkVisibility);
+
+      // Modal logic
+      const locationBtn = document.getElementById("location-btn");
+      const paymentBtn = document.getElementById("payment-btn");
+      const calendarBtn = document.getElementById("calendar-btn");
+
+      const locationModal = document.getElementById("location-modal");
+      const paymentModal = document.getElementById("payment-modal");
+      const calendarModal = document.getElementById("calendar-modal");
+
+      const closeLocation = document.getElementById("close-location");
+      const closePayment = document.getElementById("close-payment");
+      const closeCalendar = document.getElementById("close-calendar");
+
+      locationBtn.addEventListener("click", () => {
+        locationModal.style.display = "flex";
+        locationModal.classList.add("active");
+      });
+
+      paymentBtn.addEventListener("click", () => {
+        paymentModal.style.display = "flex";
+        paymentModal.classList.add("active");
+      });
+
+      calendarBtn.addEventListener("click", () => {
+        calendarModal.style.display = "flex";
+        calendarModal.classList.add("active");
+      });
+
+      closeLocation.addEventListener("click", () => {
+        locationModal.style.display = "none";
+        locationModal.classList.remove("active");
+      });
+
+      closePayment.addEventListener("click", () => {
+        paymentModal.style.display = "none";
+        paymentModal.classList.remove("active");
+      });
+
+      closeCalendar.addEventListener("click", () => {
+        calendarModal.style.display = "none";
+        calendarModal.classList.remove("active");
+      });
+
+      // Close modal on outside click
+      window.addEventListener("click", (e) => {
+        if (e.target === locationModal) {
+          locationModal.style.display = "none";
+          locationModal.classList.remove("active");
+        }
+        if (e.target === paymentModal) {
+          paymentModal.style.display = "none";
+          paymentModal.classList.remove("active");
+        }
+        if (e.target === calendarModal) {
+          calendarModal.style.display = "none";
+          calendarModal.classList.remove("active");
+        }
+      });
+    </script>
+  </body>
+</html>
